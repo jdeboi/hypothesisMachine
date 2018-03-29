@@ -100,6 +100,7 @@ function keyTyped() {
     console.log(currentlyTyped.substring(0, 3));
   }
   else {
+    if(waitingForInput) 
     if (textWidth(currentlyTyped) < windowWidth + 2 * consoleMargin.x) currentlyTyped += key;
   }
 
