@@ -93,7 +93,7 @@ function enteredInput() {
 
 function keyTyped() {
   if (keyCode == RETURN) {
-    enteredInput();
+    if(waitingForInput) enteredInput();
   }
   else if (keyCode == BACKSPACE || keyCode == DELETE) {
     currentlyTyped = currentlyTyped.substring(0, currentlyTyped.length-1);
