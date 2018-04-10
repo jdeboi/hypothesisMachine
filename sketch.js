@@ -1,4 +1,4 @@
-var textS = 30;
+var textS = 40;
 var consoleMargin = {x:100, y:100};
 var f;
 var lastTime = 0;
@@ -11,7 +11,7 @@ var textBoxWidth;
 var inputY;
 var inputX;
 var inputW;
-
+var blockSpacing = 100;
 
 var promptYear = 0;
 var waitingForInput = true;
@@ -37,20 +37,21 @@ var hypotheses;
 
 function preload() {
   hypotheses = loadJSON("hypotheses.json");
+  f = loadFont("clacon.ttf");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  f = loadFont("Retro Computer_DEMO.ttf");
+  //f = loadFont("Retro Computer_DEMO.ttf");
   textSize(textS);
   textFont(f);
   consoleColor  = color(0, 225, 0);
   promptYear = floor(random(2050, 5000));
-  inputY = consoleMargin.y + 200;
+  inputY = consoleMargin.y + blockSpacing;
   inputX = consoleMargin.x+250;
   inputW = width - 2*consoleMargin.x-inputX;
   responseX = inputX;
-  responseY = inputY + 100;
+  responseY = inputY + blockSpacing;
   cursorPosition = {x: inputX, y: inputY - textS*.85};
 
   console.log(hypotheses.responses[0]);
@@ -99,11 +100,11 @@ function textBox(words, x, y, w) {
   var h = y;
   lines.forEach((line, index)  => {
     text(line, x, h);
-    cursorPosition.y = h-textS*.85;
+    cursorPosition.y = h-textS*.67;
     cursorPosition.x = inputX + textWidth(line);
     h+=30;
   });
-  responseY = h + 100;
+  responseY = h + blockSpacing;
 }
 
 function resetPrompt() {
@@ -119,7 +120,7 @@ function blinkCursor() {
   var delayT = 1000;
   if (millis()%delayT < delayT/2) fill(consoleColor);
   else fill(0)
-  rect(cursorPosition.x, cursorPosition.y, 15, textS);
+  rect(cursorPosition.x, cursorPosition.y, textWidth("A")*.7, textS*.7);
 }
 
 function getResponse() {
@@ -136,13 +137,10 @@ function enteredInput() {
   sendingResponseTime = millis();
 }
 
-function keyPressed() {
+function keyTyped() {
   waitingResponseTime = millis();
   if (keyCode == RETURN) {
     if(waitingForInput) enteredInput();
-  }
-  else if (keyCode == DELETE || keyCode == BACKSPACE) {
-    currentlyTyped = currentlyTyped.substring(0, currentlyTyped.length-1);
   }
   else if (keyCode == UP_ARROW || keyCode == DOWN_ARROW || keyCode == LEFT_ARROW || keyCode == RIGHT_ARROW) {}
   else {
@@ -152,6 +150,12 @@ function keyPressed() {
 
       }
     }
+  }
+}
+
+function keyPressed() {
+  if (keyCode == BACKSPACE || keyCode == DELETE) {
+    currentlyTyped = currentlyTyped.substring(0, currentlyTyped.length-1);
   }
 }
 
