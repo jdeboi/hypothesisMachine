@@ -133,7 +133,7 @@ function draw() {
   if (waitingForInput) {
     // inputX + textW, inputY - textS*.85
     blinkCursor();
-    if (millis() - waitingResponseTime > 6000 && currentlyTyped.length > 0) {
+    if (millis() - waitingResponseTime > 60000 && currentlyTyped.length > 0) {
       sendingResponse = true;
       waitingForInput = false;
       response = random(timeoutResponses);
