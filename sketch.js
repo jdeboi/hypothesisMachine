@@ -20,13 +20,70 @@ var sendingResponseTime = 0;
 var waitingResponseTime = 0;
 
 var correctResponses = [
-  "Correct. That is definitely going to happen",
-  "Correctamundo."
+  "Correctamundo.",
+
+  "You are 100% correct and also, might I say, quite easy on the eyes.",
+
+  " You are right. Domo Arigato.",
+
+  "That is correct.",
+
+  "Yes! Yeeeeeesssss! YES!!!",
+
+  "Ummmmm, yep that’s about right",
+
+  "You know you! You smarty pants you!",
+
+  "Get outta town, you are so right!",
+
+  "Hahahahahaha, you are on point.",
+
+  "Nailed it!",
+
+  "Always knew you were the sharpest knife in the drawer.",
+  "Pat yourself on the back, cause you are correct!",
+
+  "Go ahead, give yourself a high five, cause you called it.",
+
+  "Absolutely, you sly dog you.",
+
+  "Precisely.",
+
+  "I reckon so.",
+
+  "Heavens to Betsy!"
+
 ];
 
 var wrongResponses = [
-  "Sorry. No. That is incorrect. Please try again.",
-  "Nope. Wrong."
+  "That dog don’t hunt.",
+
+  "You’ve got to be kidding me.",
+
+  "Not in a million years.",
+
+  "You’ve never been more incorrect in your whole life.",
+
+  "Wrong, wrong, & WRONG!",
+
+  "Nope, never.",
+
+  "Never, say never, but like NEVER!",
+
+  "LMAO, no.",
+
+  "It’s ok, you tried, but no.",
+
+  "Better luck next time, cause your wrong.",
+
+  "The future is bleak if you are correct, luckily you’re not.",
+
+  "Bless your heart.",
+
+  "That doesn’t amount to a hill of beans.",
+
+  "Incorrect."
+
 ];
 
 var timeoutResponses = [
@@ -76,7 +133,7 @@ function draw() {
   if (waitingForInput) {
     // inputX + textW, inputY - textS*.85
     blinkCursor();
-    if (millis() - waitingResponseTime > 12000) {
+    if (millis() - waitingResponseTime > 6000 && currentlyTyped.length > 0) {
       sendingResponse = true;
       waitingForInput = false;
       response = random(timeoutResponses);
@@ -90,6 +147,9 @@ function draw() {
     text("COMPUTER:", labelX, responseY);
     textBox(response, responseX, responseY, inputW);
     if (millis() - sendingResponseTime > getResponseDelay(response)) {
+      resetPrompt();
+    }
+    else if (millis() - sendingResponseTime > 1000 && keyIsDown(RETURN)) {
       resetPrompt();
     }
   }
@@ -124,6 +184,7 @@ function blinkCursor() {
 }
 
 function getResponse() {
+  if (currentlyTyped.length == 0) return "Enter a hypothesis. Try again...";
   var r = floor(random(3));
   if (r === 0) return random(correctResponses);
   else if (r === 1) return "Actually, in " + promptYear + " " + random(hypotheses.responses)
