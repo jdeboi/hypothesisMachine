@@ -170,7 +170,7 @@ function textBox(words, x, y, w) {
 function resetPrompt() {
   sendingResponse = false;
   waitingForInput = true;
-  promptYear = floor(random(2050, 5000));
+  promptYear = floor(random(2020, 2099));
   currentlyTyped = "";
   cursorPosition = {x: inputX, y: inputY};
   waitingResponseTime = millis();
